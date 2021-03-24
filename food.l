@@ -7,10 +7,14 @@
 %%
 
 muffin          return Parser::MUFFIN;
-muffins?        return Parser::MUFFIN;
-sandwich(es)?   return Parser::SANDWICH;
-burgers?        return Parser::BURGER;
-cakes?          return Parser::CAKE;
+sandwich        return Parser::SANDWICH;
+burger          return Parser::BURGER;
+cake            return Parser::CAKE;
+
+muffins         return Parser::MUFFINS;
+sandwiches      return Parser::SANDWICHES;
+burgers         return Parser::BURGERS;
+cakes           return Parser::CAKES;
 
 a|one           return Parser::ONE;
 two             return Parser::TWO;

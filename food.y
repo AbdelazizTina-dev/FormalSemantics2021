@@ -3,6 +3,7 @@
 
 %token ONE TWO THREE DOZEN
 %token BURGER SANDWICH MUFFIN CAKE
+%token BURGERS SANDWICHES MUFFINS CAKES
 %token LIGHT
 %left PLUS
 
@@ -44,6 +45,77 @@ start:
 ;
 
 food:
+
+    amount LIGHT BURGERS
+    {
+        if ($1 < 2) 
+            error();
+        $$ = new food($1*250, $1*2,salty, true);
+    }
+|
+    amount LIGHT SANDWICHES
+    {
+        if ($1 < 2) 
+            error();
+        $$ = new food($1*100, $1*2,salty, false);
+    }
+|
+    amount LIGHT MUFFINS
+    {
+        if ($1 < 2) 
+            error();
+        $$ = new food($1*50, $1*5,sweet, true);
+    }
+|
+    amount LIGHT CAKES
+    {
+        if ($1 == 1) 
+            error();
+        if($1 > 2)
+    	{
+            std::cerr << "Sorry, but you cannot eat more than two light cakes at once." << std::endl;
+            error();
+    	}
+        $$ = new food($1*250, $1*10,sweet, false);
+    }
+|
+    amount BURGERS
+    {
+        if ($1 < 2) 
+            error();
+        $$ = new food($1*500, $1*5,salty, true);
+    }
+|
+    amount SANDWICHES
+    {
+        if ($1 < 2) 
+            error();
+        $$ = new food($1*200, $1*5,salty, false);
+    }
+|
+    amount MUFFINS
+    {
+        if ($1 < 2) 
+            error();
+        $$ = new food($1*100, $1*10,sweet, true);
+    }
+|
+    amount CAKES
+    {
+    	if($1 == 1)
+    	{
+            error();
+    	}
+        if ($1 >= 2)    	
+        {
+            std::cerr << "Sorry, but you cannot eat more than one cake at once." << std::endl;
+            error();
+    	}
+
+        $$ = new food($1*500, $1*20,sweet, false);
+    }
+|
+
     amount LIGHT BURGER
     {
         $$ = new food($1*250, $1*2,salty, true);
@@ -71,27 +143,34 @@ food:
 |
     amount BURGER
     {
+        if ($1 > 1)
+            error();
         $$ = new food($1*500, $1*5,salty, true);
     }
 |
     amount SANDWICH
     {
+        if ($1 > 1)
+            error();
         $$ = new food($1*200, $1*5,salty, false);
     }
 |
     amount MUFFIN
     {
-        $$ = new food($1*100, $1*10,sweet, true);
+        if ($1 > 1)
+            error();
+        $$ = new food($1*100,$1*10,sweet, true);
     }
 |
     amount CAKE
     {
+        /*since there is only one possibilty that works with "one cake | a cake" I removed
+        the more than one cake warning since it's the same as my gramatical error, for ex: "two cake"*/
     	if($1 > 1)
     	{
-            std::cerr << "Sorry, but you cannot eat more than one cake at once." << std::endl;
             error();
     	}
-        $$ = new food($1*500, $1*20,sweet, false);
+        $$ = new food($1*500,$1*20,sweet,false);
     }
 |
     food PLUS food
