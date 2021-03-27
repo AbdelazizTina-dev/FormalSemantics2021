@@ -15,7 +15,13 @@
 %type<food_info> food;
 %type<amount> amount;
 
-
+/*
+	        Caloris	    Sugar	  Light Cals	Light Sugar
+Cake        500         20        250           10
+Muffin      100		    10         50           5
+Sandwich    200          5        100           2
+Burger      500		     5	      250           2
+*/
 
 %%
 
@@ -23,7 +29,7 @@ start:
     food
     {
         if($1->sugar > 50){
-        	std::cerr << "Sugar content exceeds the 50g limit" << std::endl;
+        	std::cerr << "Sugar content (" << $1->sugar <<" g) exceeds the 50g limit" << std::endl;
             error();
         }
         if($1->gluten)
